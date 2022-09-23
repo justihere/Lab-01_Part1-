@@ -19,5 +19,5 @@ if __name__ == "__main__" :
     val_2 = input_args.input_value_2
     operator_name = input_args.input_operator_name
 
-    print(process(
+    print(process(val_1, operator_name, val_2))
 
