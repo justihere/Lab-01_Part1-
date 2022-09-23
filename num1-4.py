@@ -1,40 +1,29 @@
 import argparse
 
-def process(accum, op, number):
-    if op == '+':
-        return accum + number
-    elif op == '-':
-        return accum - number
-    elif op == '0':
-        return number
+parser = argparse.ArgumentParser()
 
-def parse(expression):
-    if not expression:
-        return (False, None)
-    accum = 0
-    number = 0
-    pending = '0'
-    for c in expression:
-        if c.isdigit():
-            if number is None:
-                number = 0
-            number = number * 10 + int(c)
-        elif c in "+-":
-            if number is None:
-                return False, None
-            accum = process( accum, pending, number )
-            pending = c
-            number = None
-        else:
-            return False, None
-    return True, process( accum, pending, number )
+parser.add_argument("-W", type=int)
+parser.add_argument("-w", type=int, nargs='+')
+
+args = parser.parse_args()
+
+Weight = args.w
+capacity = args.W
+
+sums = []
+
+
+def optimal_weight(Weight, capacity, patrial=[]):
+    s = sum(patrial)
+    if s <= capacity:
+        sums.append(s)
+    for i in range(len(Weight)):
+        n = Weight[i]
+        remaining = Weight[i + 1:]
+        optimal_weight(remaining, capacity, patrial + [n])
+
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Take expression")
-    parser.add_argument("input_expression", type=str,
-            help="Give an expression")
+    optimal_weight(Weight, capacity)
 
-    input_args = parser.parse_args()
-    expr = input_args.input_expression
-
-    print(parse(expr)
+    
