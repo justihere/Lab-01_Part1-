@@ -3,6 +3,9 @@ import operator
 
 def process(a, op_name, b):
     op = getattr(operator, op_name)
+    if args.action == "/":
+        if args.values[1] == "0":
+            print("Division by zero is forbidden!")
     return op(a, b)
 
 if __name__ == "__main__" :
